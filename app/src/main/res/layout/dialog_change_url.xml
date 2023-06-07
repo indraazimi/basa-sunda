@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2023 Indra Azimi. All rights reserved.
+  ~
+  ~ Dibuat untuk kelas Pemrograman Berbasis Web 1.
+  ~ Dilarang melakukan penggandaan dan atau komersialisasi,
+  ~ sebagian atau seluruh bagian, baik cetak maupun elektronik
+  ~ terhadap project ini tanpa izin pemilik hak cipta.
+  -->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingStart="?dialogPreferredPadding"
+    android:paddingTop="16dp"
+    android:paddingEnd="?dialogPreferredPadding"
+    android:paddingBottom="16dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/wajib_restart" />
+
+    <EditText
+        android:id="@+id/editText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/url_rest_api"
+        android:inputType="textUri" />
+
+</LinearLayout>

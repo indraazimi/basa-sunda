@@ -10,9 +10,14 @@
 package com.indraazimi.basasunda
 
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
+import android.widget.EditText
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
 import com.indraazimi.basasunda.databinding.ActivityMainBinding
@@ -22,7 +27,9 @@ class MainActivity : AppCompatActivity() {
     private val myAdapter: MainAdapter by lazy { MainAdapter() }
 
     private val viewModel: MainViewModel by lazy {
-        ViewModelProvider(this)[MainViewModel::class.java]
+        val prefs = PreferenceManager.getDefaultSharedPreferences(applicationContext)
+        val factory = MainViewModelFactory(prefs)
+        ViewModelProvider(this, factory)[MainViewModel::class.java]
     }
 
     private lateinit var binding: ActivityMainBinding
@@ -56,5 +63,36 @@ class MainActivity : AppCompatActivity() {
                 binding.networkError.visibility = View.VISIBLE
             }
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_main, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.menuChangeUrl) {
+            showDialog()
+            return true
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    private fun showDialog() {
+        val view = layoutInflater.inflate(R.layout.dialog_change_url, null)
+        val editText = view.findViewById<EditText>(R.id.editText)
+        editText.setText(viewModel.getUrl())
+
+        AlertDialog.Builder(this)
+            .setTitle(R.string.change_url)
+            .setView(view)
+            .setPositiveButton(R.string.simpan) { _, _ ->
+                viewModel.saveUrl(editText.text.toString())
+            }
+            .setNegativeButton(R.string.batal) { dialog, _ ->
+                dialog.dismiss()
+            }
+            .create()
+            .show()
     }
 }

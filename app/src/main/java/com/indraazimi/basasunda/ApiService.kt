@@ -18,17 +18,6 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Query
 
-private const val BASE_URL = "https://d3ifcool.org/basasunda/v1/"
-
-private val moshi = Moshi.Builder()
-    .add(KotlinJsonAdapterFactory())
-    .build()
-
-private val retrofit = Retrofit.Builder()
-    .addConverterFactory(MoshiConverterFactory.create(moshi))
-    .baseUrl(BASE_URL)
-    .build()
-
 interface HewanApiService {
     @GET("category.php")
     suspend fun getCategories(): List<Category>
@@ -38,8 +27,19 @@ interface HewanApiService {
 }
 
 object HewanApi {
-    val service: HewanApiService by lazy {
-        retrofit.create(HewanApiService::class.java)
+    lateinit var service: HewanApiService
+
+    fun init(baseUrl: String) {
+        val moshi = Moshi.Builder()
+            .add(KotlinJsonAdapterFactory())
+            .build()
+
+        val retrofit = Retrofit.Builder()
+            .addConverterFactory(MoshiConverterFactory.create(moshi))
+            .baseUrl(baseUrl)
+            .build()
+
+        service = retrofit.create(HewanApiService::class.java)
     }
 }
 

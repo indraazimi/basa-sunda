@@ -9,4 +9,9 @@
 
 <resources>
     <string name="app_name">Basa Sunda</string>
+    <string name="change_url">Ubah REST API</string>
+    <string name="url_rest_api">URL dari REST API</string>
+    <string name="wajib_restart">Aplikasi wajib di-restart agar URL baru menjadi aktif.</string>
+    <string name="simpan">Simpan</string>
+    <string name="batal">Batal</string>
 </resources>
