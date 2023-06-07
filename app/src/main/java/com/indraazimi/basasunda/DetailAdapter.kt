@@ -9,18 +9,17 @@
 
 package com.indraazimi.basasunda
 
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.indraazimi.basasunda.databinding.ListCategoryBinding
-import com.indraazimi.basasunda.model.Category
+import com.indraazimi.basasunda.databinding.ListWordBinding
+import com.indraazimi.basasunda.model.Word
 
-class MainAdapter : RecyclerView.Adapter<MainAdapter.ViewHolder>() {
+class DetailAdapter : RecyclerView.Adapter<DetailAdapter.ViewHolder>() {
 
-    private val data = mutableListOf<Category>()
+    private val data = mutableListOf<Word>()
 
-    fun updateData(newData: List<Category>) {
+    fun updateData(newData: List<Word>) {
         data.clear()
         data.addAll(newData)
         notifyDataSetChanged()
@@ -28,7 +27,7 @@ class MainAdapter : RecyclerView.Adapter<MainAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        val binding = ListCategoryBinding.inflate(inflater, parent, false)
+        val binding = ListWordBinding.inflate(inflater, parent, false)
         return ViewHolder(binding)
     }
 
@@ -41,18 +40,12 @@ class MainAdapter : RecyclerView.Adapter<MainAdapter.ViewHolder>() {
     }
 
     class ViewHolder(
-        private val binding: ListCategoryBinding
+        private val binding: ListWordBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(category: Category) = with(binding) {
-            textView.text = category.label
-
-            root.setOnClickListener {
-                val intent = Intent(it.context, DetailActivity::class.java)
-                intent.putExtra(DetailActivity.KEY_CATEGORY_ID, category.id)
-                intent.putExtra(DetailActivity.KEY_CATEGORY, category.label)
-                it.context.startActivity(intent)
-            }
+        fun bind(word: Word) = with(binding) {
+            sundaTextView.text = word.sunda
+            defaultTextView.text = word.label
         }
     }
 }
