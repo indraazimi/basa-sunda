@@ -12,4 +12,5 @@ package com.indraazimi.basasunda.model
 data class Category(
     val id: Int,
     val label: String,
+    val color: String,
 )

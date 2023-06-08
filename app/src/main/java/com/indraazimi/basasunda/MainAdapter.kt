@@ -10,6 +10,7 @@
 package com.indraazimi.basasunda
 
 import android.content.Intent
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -45,6 +46,8 @@ class MainAdapter : RecyclerView.Adapter<MainAdapter.ViewHolder>() {
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(category: Category) = with(binding) {
+            val color = Color.parseColor("#" + category.color)
+            textView.setBackgroundColor(color)
             textView.text = category.label
 
             root.setOnClickListener {

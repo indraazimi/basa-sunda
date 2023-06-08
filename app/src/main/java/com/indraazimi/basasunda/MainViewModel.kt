@@ -21,7 +21,7 @@ import kotlinx.coroutines.launch
 class MainViewModel(private val prefs: SharedPreferences) : ViewModel() {
 
     companion object {
-        private const val DEFAULT_URL = "https://d3ifcool.org/basasunda/v1/"
+        private const val DEFAULT_URL = "https://d3ifcool.org/basasunda/v2/"
         private const val KEY_URL = "url"
     }
 

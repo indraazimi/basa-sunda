@@ -18,8 +18,6 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.preference.PreferenceManager
-import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.RecyclerView
 import com.indraazimi.basasunda.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -40,7 +38,6 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         with(binding.recyclerView) {
-            addItemDecoration(DividerItemDecoration(context, RecyclerView.VERTICAL))
             adapter = myAdapter
             setHasFixedSize(true)
         }
