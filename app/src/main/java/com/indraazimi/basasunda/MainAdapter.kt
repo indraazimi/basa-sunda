@@ -54,6 +54,7 @@ class MainAdapter : RecyclerView.Adapter<MainAdapter.ViewHolder>() {
                 val intent = Intent(it.context, DetailActivity::class.java)
                 intent.putExtra(DetailActivity.KEY_CATEGORY_ID, category.id)
                 intent.putExtra(DetailActivity.KEY_CATEGORY, category.label)
+                intent.putExtra(DetailActivity.KEY_BACKGROUND, color)
                 it.context.startActivity(intent)
             }
         }

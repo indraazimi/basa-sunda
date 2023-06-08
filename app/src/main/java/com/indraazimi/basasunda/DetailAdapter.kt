@@ -10,12 +10,14 @@
 package com.indraazimi.basasunda
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.indraazimi.basasunda.databinding.ListWordBinding
 import com.indraazimi.basasunda.model.Word
 
-class DetailAdapter : RecyclerView.Adapter<DetailAdapter.ViewHolder>() {
+class DetailAdapter(private val color: Int) : RecyclerView.Adapter<DetailAdapter.ViewHolder>() {
 
     private val data = mutableListOf<Word>()
 
@@ -39,13 +41,25 @@ class DetailAdapter : RecyclerView.Adapter<DetailAdapter.ViewHolder>() {
         return data.size
     }
 
-    class ViewHolder(
+    inner class ViewHolder(
         private val binding: ListWordBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(word: Word) = with(binding) {
             sundaTextView.text = word.sunda
+            sundaTextView.setBackgroundColor(color)
             defaultTextView.text = word.label
+            defaultTextView.setBackgroundColor(color)
+
+            if (word.image.isEmpty()) {
+                imageView.visibility = View.GONE
+                return@with
+            }
+
+            Glide.with(imageView.context)
+                .load(HewanApi.getImageUrl(word.image))
+                .error(R.drawable.baseline_broken_image_24)
+                .into(imageView)
         }
     }
 }

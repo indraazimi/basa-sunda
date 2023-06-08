@@ -22,9 +22,13 @@ class DetailActivity : AppCompatActivity() {
     companion object {
         const val KEY_CATEGORY_ID = "catid"
         const val KEY_CATEGORY = "label"
+        const val KEY_BACKGROUND = "background"
     }
 
-    private val myAdapter: DetailAdapter by lazy { DetailAdapter() }
+    private val myAdapter: DetailAdapter by lazy {
+        val backgroundColor = intent.getIntExtra(KEY_BACKGROUND, 0)
+        DetailAdapter(backgroundColor)
+    }
 
     private val viewModel: DetailViewModel by lazy {
         val categoryId = intent.getIntExtra(KEY_CATEGORY_ID, 0)

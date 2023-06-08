@@ -27,9 +27,12 @@ interface HewanApiService {
 }
 
 object HewanApi {
+    private lateinit var baseUrl: String
     lateinit var service: HewanApiService
 
     fun init(baseUrl: String) {
+        this.baseUrl = baseUrl
+
         val moshi = Moshi.Builder()
             .add(KotlinJsonAdapterFactory())
             .build()
@@ -40,6 +43,10 @@ object HewanApi {
             .build()
 
         service = retrofit.create(HewanApiService::class.java)
+    }
+
+    fun getImageUrl(imageName: String): String {
+        return baseUrl + "getImage.php?name=$imageName&size=xhdpi"
     }
 }
 

@@ -13,4 +13,5 @@ data class Word(
     val id: Int,
     val label: String,
     val sunda: String,
+    val image: String,
 )
