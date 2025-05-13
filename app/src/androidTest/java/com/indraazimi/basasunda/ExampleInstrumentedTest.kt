@@ -1,17 +1,8 @@
-/*
- * Copyright (c) 2023 Indra Azimi. All rights reserved.
- *
- * Dibuat untuk kelas Pemrograman Berbasis Web 1.
- * Dilarang melakukan penggandaan dan atau komersialisasi,
- * sebagian atau seluruh bagian, baik cetak maupun elektronik
- * terhadap project ini tanpa izin pemilik hak cipta.
- */
-
 package com.indraazimi.basasunda
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
 

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Copyright (c) 2023 Indra Azimi. All rights reserved.
+  ~ Copyright (c) 2023-2025 Indra Azimi. All rights reserved.
   ~
   ~ Dibuat untuk kelas Pemrograman Berbasis Web 1.
   ~ Dilarang melakukan penggandaan dan atau komersialisasi,
@@ -17,6 +17,7 @@
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.BasaSunda"
         tools:targetApi="31">
