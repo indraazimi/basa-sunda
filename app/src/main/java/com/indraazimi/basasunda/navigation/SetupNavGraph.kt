@@ -31,14 +31,15 @@ fun SetupNavGraph(navController: NavHostController = rememberNavController()) {
         }
         composable(
             route = Screen.Detail.route,
-            arguments = listOf(navArgument("catId") {
-                type = NavType.StringType
-            })
-        ) {
-            backStackEntry ->
-            val catId = backStackEntry.arguments?.getString("catId")
-            if (catId != null) {
-                DetailScreen(catId, navController)
+            arguments = listOf(
+                navArgument("catId") { type = NavType.IntType },
+                navArgument("label") { type = NavType.StringType }
+            )
+        ) { backStackEntry ->
+            val catId = backStackEntry.arguments?.getInt("catId")
+            val label = backStackEntry.arguments?.getString("label")
+            if (catId != null && label != null) {
+                DetailScreen(catId, label, navController)
             }
         }
     }

@@ -7,11 +7,10 @@
  * terhadap project ini tanpa izin pemilik hak cipta.
  */
 
-package com.indraazimi.basasunda.navigation
+package com.indraazimi.basasunda.model
 
-sealed class Screen (val route: String) {
-    object Main: Screen("mainScreen")
-    object Detail : Screen("detailScreen/{catId}/{label}") {
-        fun masukCatId(catId: Int, label: String) = "detailScreen/$catId/$label"
-    }
-}
+data class Word(
+    val id: Int,
+    val label: String,
+    val sunda: String,
+)

@@ -19,7 +19,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -29,22 +28,30 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import com.indraazimi.basasunda.R
+import com.indraazimi.basasunda.model.Word
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DetailScreen(category: String, navController: NavController) {
+fun DetailScreen(catId: Int, label: String, navController: NavController) {
+    val viewModel: DetailViewModel = viewModel()
+    val data by viewModel.wordData
+
+    LaunchedEffect(catId) {
+        viewModel.retrieveData(catId)
+    }
+
     Scaffold (
         topBar = {
             TopAppBar(
                 title = {
-                    Text( text = category )
+                    Text( text = label)
                 },
                 colors = TopAppBarDefaults.mediumTopAppBarColors(
                     containerColor = MaterialTheme.colorScheme.primaryContainer,
@@ -66,19 +73,13 @@ fun DetailScreen(category: String, navController: NavController) {
             innerPadding ->
         DetailContent(
             modifier = Modifier.padding(innerPadding),
-            category = category
+            words = data,
         )
     }
 }
 
 @Composable
-fun DetailContent(modifier: Modifier = Modifier, category: String) {
-    val words = when (category) {
-        "Keluarga" -> listOf(
-            "Ibu", "Ayah", "Saudara", "Saudari", "Kakek", "Nenek", "Paman", "Bibi", "Sepupu"
-        )
-        else -> listOf("Belum ada data untuk kategori ini.")
-    }
+fun DetailContent(modifier: Modifier = Modifier, words: List<Word>) {
 
     LazyColumn (
         modifier = modifier
@@ -87,8 +88,8 @@ fun DetailContent(modifier: Modifier = Modifier, category: String) {
     ) {
         items(words.size) { index ->
             WordItem(
-                title = words[index],
-                sunda = "Sunda",
+                title = words[index].label,
+                sunda = words[index].sunda,
                 onClick = { }
             )
             HorizontalDivider()

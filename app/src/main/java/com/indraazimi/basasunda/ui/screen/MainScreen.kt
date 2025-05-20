@@ -73,7 +73,7 @@ fun MainContent(modifier: Modifier = Modifier, navController: NavController) {
         items(data) { item ->
             CategoryItem(
                 title = item.label,
-                onClick = { navController.navigate(Screen.Detail.masukCatId(item.label)) }
+                onClick = { navController.navigate(Screen.Detail.masukCatId(item.id, item.label)) }
             )
             HorizontalDivider()
         }
