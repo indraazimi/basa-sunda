@@ -51,3 +51,9 @@ object WordApi {
     }
 }
 
+enum class ApiStatus {
+    LOADING,
+    ERROR,
+    SUCCESS
+}
+
