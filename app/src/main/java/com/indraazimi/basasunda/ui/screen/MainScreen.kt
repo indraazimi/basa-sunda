@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
@@ -25,6 +26,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -61,30 +63,17 @@ fun MainScreen(navController: NavController) {
 @Composable
 fun MainContent(modifier: Modifier = Modifier, navController: NavController) {
     val viewModel: MainViewModel = viewModel()
-
-
-    val categories = listOf(
-        "Keluarga",
-        "Hewan",
-        "Buah",
-        "Sayuran",
-        "Benda",
-        "Angka",
-        "Warna",
-        "Hari",
-        "Bulan",
-        "Cuaca"
-    )
+    val data by viewModel.categoryData
 
     LazyColumn (
         modifier = modifier
             .background(MaterialTheme.colorScheme.background),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        items(categories.size) { index ->
+        items(data) { item ->
             CategoryItem(
-                title = categories[index],
-                onClick = { navController.navigate(Screen.Detail.masukCatId(categories[index])) }
+                title = item.label,
+                onClick = { navController.navigate(Screen.Detail.masukCatId(item.label)) }
             )
             HorizontalDivider()
         }

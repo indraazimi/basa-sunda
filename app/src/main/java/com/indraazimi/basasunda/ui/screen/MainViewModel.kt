@@ -10,12 +10,17 @@
 package com.indraazimi.basasunda.ui.screen
 
 import android.util.Log
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.indraazimi.basasunda.model.Category
 import com.indraazimi.basasunda.network.CategoryApi
 import kotlinx.coroutines.launch
 
 class MainViewModel : ViewModel() {
+    var categoryData = mutableStateOf(listOf<Category>())
+        private set
+
     init {
         retrieveData()
     }
@@ -23,8 +28,7 @@ class MainViewModel : ViewModel() {
     private fun retrieveData() {
         viewModelScope.launch {
             try {
-                val result = CategoryApi.service.getCategory()
-                Log.d("MainViewModel", "Data retrieved successfully: $result")
+                categoryData.value = CategoryApi.service.getCategory()
             } catch (e: Exception) {
                 Log.e("MainViewModel", "Error retrieving data: ${e.message}")
             }
