@@ -29,11 +29,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.indraazimi.basasunda.R
+import com.indraazimi.basasunda.navigation.Screen
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MainScreen() {
+fun MainScreen(navController: NavController) {
     Scaffold (
         topBar = {
             TopAppBar(
@@ -49,13 +51,14 @@ fun MainScreen() {
     ) {
         innerPadding ->
         MainContent(
-            modifier = Modifier.padding(innerPadding)
+            modifier = Modifier.padding(innerPadding),
+            navController = navController,
         )
     }
 }
 
 @Composable
-fun MainContent(modifier: Modifier = Modifier) {
+fun MainContent(modifier: Modifier = Modifier, navController: NavController) {
     val categories = listOf(
         "Keluarga",
         "Hewan",
@@ -77,7 +80,7 @@ fun MainContent(modifier: Modifier = Modifier) {
         items(categories.size) { index ->
             CategoryItem(
                 title = categories[index],
-                onClick = { }
+                onClick = { navController.navigate(Screen.Detail.masukCatId(categories[index])) }
             )
             HorizontalDivider()
         }
