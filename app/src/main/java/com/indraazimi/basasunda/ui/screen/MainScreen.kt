@@ -29,6 +29,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.indraazimi.basasunda.R
 import com.indraazimi.basasunda.navigation.Screen
@@ -59,6 +60,9 @@ fun MainScreen(navController: NavController) {
 
 @Composable
 fun MainContent(modifier: Modifier = Modifier, navController: NavController) {
+    val viewModel: MainViewModel = viewModel()
+
+
     val categories = listOf(
         "Keluarga",
         "Hewan",
