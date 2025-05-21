@@ -10,4 +10,9 @@
 <resources>
     <string name="app_name">Basa Sunda</string>
     <string name="coba_lagi">Coba lagi</string>
+    <string name="batal">Batal</string>
+    <string name="simpan">Simpan</string>
+    <string name="masukkan">Masukkan Base URL :</string>
+    <string name="ubah">Ubah Base URL</string>
+    <string name="pengaturan">Pengaturan</string>
 </resources>
