@@ -10,7 +10,6 @@
 package com.indraazimi.basasunda.navigation
 
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -29,6 +28,7 @@ fun SetupNavGraph(navController: NavHostController = rememberNavController()) {
         composable(route = Screen.Main.route) {
             MainScreen(navController)
         }
+
         composable(
             route = Screen.Detail.route,
             arguments = listOf(

@@ -10,8 +10,8 @@
 package com.indraazimi.basasunda.navigation
 
 sealed class Screen (val route: String) {
-    object Main: Screen("mainScreen")
-    object Detail : Screen("detailScreen/{catId}/{label}") {
+    data object Main: Screen("mainScreen")
+    data object Detail : Screen("detailScreen/{catId}/{label}") {
         fun masukCatId(catId: Int, label: String) = "detailScreen/$catId/$label"
     }
 }

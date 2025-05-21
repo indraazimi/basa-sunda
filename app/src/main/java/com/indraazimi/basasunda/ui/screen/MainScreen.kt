@@ -55,8 +55,9 @@ import com.indraazimi.basasunda.network.ApiStatus
 @Composable
 fun MainScreen(navController: NavController) {
     val viewModel: MainViewModel = viewModel()
+    val baseUrl by viewModel.baseUrl
+
     var showDialog by remember { mutableStateOf(false) }
-    var baseUrl by viewModel.baseUrl
 
     Scaffold (
         topBar = {
@@ -73,13 +74,13 @@ fun MainScreen(navController: NavController) {
                         Icon(
                             imageVector = Icons.Default.Settings,
                             contentDescription = stringResource(R.string.ubah),
+                            tint = MaterialTheme.colorScheme.primary
                         )
                     }
                 }
             )
         }
-    ) {
-        innerPadding ->
+    ) { innerPadding ->
         MainContent(
             modifier = Modifier.padding(innerPadding),
             navController = navController,
@@ -119,8 +120,7 @@ fun MainContent(modifier: Modifier, navController: NavController) {
         ApiStatus.SUCCESS -> {
             LazyColumn (
                 modifier = modifier
-                    .background(MaterialTheme.colorScheme.background),
-                verticalArrangement = Arrangement.spacedBy(8.dp)
+                    .background(MaterialTheme.colorScheme.background)
             ) {
                 items(data) { item ->
                     CategoryItem(
@@ -134,6 +134,7 @@ fun MainContent(modifier: Modifier, navController: NavController) {
         ApiStatus.ERROR -> {
             Column (
                 modifier = modifier
+                    .fillMaxSize()
                     .background(MaterialTheme.colorScheme.background),
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
@@ -150,12 +151,9 @@ fun MainContent(modifier: Modifier, navController: NavController) {
                         text = stringResource(R.string.coba_lagi)
                     )
                 }
-
             }
         }
     }
-
-
 }
 
 @Composable
@@ -181,4 +179,3 @@ fun CategoryItem(
         )
     }
 }
-

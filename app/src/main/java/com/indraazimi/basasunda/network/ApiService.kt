@@ -1,6 +1,5 @@
 package com.indraazimi.basasunda.network
 
-import androidx.compose.runtime.mutableStateOf
 import com.indraazimi.basasunda.model.Category
 import com.indraazimi.basasunda.model.Word
 import com.squareup.moshi.Moshi
@@ -24,7 +23,7 @@ fun createRetrofit(baseUrl: String): Retrofit {
 }
 
 object BaseUrlRepository {
-    private val _baseUrl = MutableStateFlow("http://10.0.2.2/rest/")
+    private val _baseUrl = MutableStateFlow("https://d3ifcool.org/basasunda/v1/")
     val baseUrl: StateFlow<String> = _baseUrl
 
     fun updateBaseUrl(newUrl: String) {
@@ -43,8 +42,4 @@ interface WordApiService {
     suspend fun getWordByCategoryId(@Query("catid") categoryId: Int): List<Word>
 }
 
-enum class ApiStatus {
-    LOADING,
-    ERROR,
-    SUCCESS
-}
+enum class ApiStatus { LOADING, ERROR, SUCCESS }

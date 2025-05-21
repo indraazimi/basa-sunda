@@ -10,18 +10,19 @@
 package com.indraazimi.basasunda.ui.screen
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -31,10 +32,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.indraazimi.basasunda.R
 import com.indraazimi.basasunda.model.Word
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -50,27 +52,25 @@ fun DetailScreen(catId: Int, label: String, navController: NavController) {
     Scaffold (
         topBar = {
             TopAppBar(
+                navigationIcon = {
+                    IconButton(onClick = { navController.popBackStack() }) {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                            contentDescription = stringResource(R.string.kembali),
+                            tint = MaterialTheme.colorScheme.primary
+                        )
+                    }
+                },
                 title = {
                     Text( text = label)
                 },
                 colors = TopAppBarDefaults.mediumTopAppBarColors(
                     containerColor = MaterialTheme.colorScheme.primaryContainer,
                     titleContentColor = MaterialTheme.colorScheme.primary,
-                ),
-                navigationIcon = {
-                    Icon(
-                        imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                        contentDescription = "Back",
-                        modifier = Modifier
-                            .padding(16.dp)
-                            .clickable { navController.popBackStack() }
-                    )
-                }
-
+                )
             )
         }
-    ) {
-            innerPadding ->
+    ) { innerPadding ->
         DetailContent(
             modifier = Modifier.padding(innerPadding),
             words = data,
@@ -80,52 +80,36 @@ fun DetailScreen(catId: Int, label: String, navController: NavController) {
 
 @Composable
 fun DetailContent(modifier: Modifier = Modifier, words: List<Word>) {
-
     LazyColumn (
         modifier = modifier
-            .background(MaterialTheme.colorScheme.background),
-        verticalArrangement = Arrangement.spacedBy(8.dp)
+            .background(MaterialTheme.colorScheme.background)
     ) {
-        items(words.size) { index ->
-            WordItem(
-                title = words[index].label,
-                sunda = words[index].sunda,
-                onClick = { }
-            )
+        items(words) {
+            WordItem(it)
             HorizontalDivider()
         }
     }
 }
 
 @Composable
-fun WordItem(
-    title: String,
-    sunda: String,
-    onClick: () -> Unit = {}
-) {
+fun WordItem(word: Word) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .clickable { onClick() }
             .background(MaterialTheme.colorScheme.surface)
             .height(88.dp)
             .padding(start = 16.dp),
         verticalArrangement = Arrangement.Center,
     ) {
         Text(
-            text = title,
-            style = MaterialTheme.typography.bodyLarge.copy(
-                fontWeight = FontWeight.Bold
-            ),
+            text = word.label,
+            style = MaterialTheme.typography.bodyLarge,
             color = MaterialTheme.colorScheme.onSurface,
         )
         Text(
-            text = sunda,
-            style = MaterialTheme.typography.bodyLarge.copy(
-                fontWeight = FontWeight.Normal
-            ),
+            text = word.sunda,
+            style = MaterialTheme.typography.bodyLarge,
             color = MaterialTheme.colorScheme.onSurface,
         )
     }
 }
-

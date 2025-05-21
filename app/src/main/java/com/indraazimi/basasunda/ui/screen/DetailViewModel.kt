@@ -1,3 +1,12 @@
+/*
+ * Copyright (c) 2023-2025 Indra Azimi. All rights reserved.
+ *
+ * Dibuat untuk kelas Pemrograman Berbasis Web 1.
+ * Dilarang melakukan penggandaan dan atau komersialisasi,
+ * sebagian atau seluruh bagian, baik cetak maupun elektronik
+ * terhadap project ini tanpa izin pemilik hak cipta.
+ */
+
 package com.indraazimi.basasunda.ui.screen
 
 import android.util.Log
@@ -14,8 +23,10 @@ import kotlinx.coroutines.launch
 class DetailViewModel : ViewModel() {
     private var retrofit = createRetrofit(BaseUrlRepository.baseUrl.value)
     private var wordApiService = retrofit.create(WordApiService::class.java)
+
     var wordData = mutableStateOf(listOf<Word>())
         private set
+
     init {
         viewModelScope.launch {
             BaseUrlRepository.baseUrl.collectLatest { newUrl ->
@@ -24,6 +35,7 @@ class DetailViewModel : ViewModel() {
             }
         }
     }
+
     fun retrieveData(categoryId: Int) {
         viewModelScope.launch {
             try {

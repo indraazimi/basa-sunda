@@ -9,6 +9,5 @@
   -->
 
 <resources>
-
     <style name="Theme.BasaSunda" parent="android:Theme.Material.Light.NoActionBar" />
 </resources>
