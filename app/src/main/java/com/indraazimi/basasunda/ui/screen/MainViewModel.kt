@@ -9,6 +9,7 @@
 
 package com.indraazimi.basasunda.ui.screen
 
+import android.content.Context
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -20,10 +21,11 @@ import com.indraazimi.basasunda.network.createRetrofit
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import retrofit2.Retrofit
 
-class MainViewModel : ViewModel() {
-    private var retrofit = createRetrofit(BaseUrlRepository.baseUrl.value)
-    private var categoryApiService = retrofit.create(CategoryApiService::class.java)
+class MainViewModel(context: Context) : ViewModel() {
+    private lateinit var retrofit: Retrofit
+    private lateinit var categoryApiService: CategoryApiService
 
     var categoryData = mutableStateOf(listOf<Category>())
         private set
@@ -39,7 +41,7 @@ class MainViewModel : ViewModel() {
 
     init {
         viewModelScope.launch {
-            BaseUrlRepository.baseUrl.collectLatest { newUrl ->
+            BaseUrlRepository.getBaseUrl(context).collectLatest { newUrl ->
                 baseUrl.value = newUrl
                 retrofit = createRetrofit(newUrl)
                 categoryApiService = retrofit.create(CategoryApiService::class.java)
@@ -48,8 +50,10 @@ class MainViewModel : ViewModel() {
         }
     }
 
-    fun updateBaseUrl(newUrl: String) {
-        BaseUrlRepository.updateBaseUrl(newUrl)
+    fun updateBaseUrl(context: Context, newUrl: String) {
+        viewModelScope.launch {
+            BaseUrlRepository.updateBaseUrl(context, newUrl)
+        }
     }
 
     fun retrieveData() {
@@ -60,7 +64,8 @@ class MainViewModel : ViewModel() {
                 status.value = ApiStatus.SUCCESS
             } catch (e: Exception) {
                 status.value = ApiStatus.ERROR
-                errorMessage.value = "Gagal mengambil data: ${e.localizedMessage ?: "Unknown error"}"
+                errorMessage.value =
+                    "Gagal mengambil data: ${e.localizedMessage ?: "Unknown error"}"
             }
         }
     }

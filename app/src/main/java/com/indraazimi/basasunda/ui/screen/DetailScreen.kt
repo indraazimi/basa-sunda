@@ -32,24 +32,27 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.indraazimi.basasunda.R
 import com.indraazimi.basasunda.model.Word
+import com.indraazimi.basasunda.util.ViewModelFactory
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DetailScreen(catId: Int, label: String, navController: NavController) {
-    val viewModel: DetailViewModel = viewModel()
+    val context = LocalContext.current
+    val viewModel: DetailViewModel = viewModel(factory = ViewModelFactory(context))
     val data by viewModel.wordData
 
     LaunchedEffect(catId) {
         viewModel.retrieveData(catId)
     }
 
-    Scaffold (
+    Scaffold(
         topBar = {
             TopAppBar(
                 navigationIcon = {
@@ -62,7 +65,7 @@ fun DetailScreen(catId: Int, label: String, navController: NavController) {
                     }
                 },
                 title = {
-                    Text( text = label)
+                    Text(text = label)
                 },
                 colors = TopAppBarDefaults.mediumTopAppBarColors(
                     containerColor = MaterialTheme.colorScheme.primaryContainer,
@@ -80,7 +83,7 @@ fun DetailScreen(catId: Int, label: String, navController: NavController) {
 
 @Composable
 fun DetailContent(modifier: Modifier = Modifier, words: List<Word>) {
-    LazyColumn (
+    LazyColumn(
         modifier = modifier
             .background(MaterialTheme.colorScheme.background)
     ) {

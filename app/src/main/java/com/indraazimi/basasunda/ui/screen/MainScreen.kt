@@ -42,6 +42,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -50,16 +51,18 @@ import androidx.navigation.NavController
 import com.indraazimi.basasunda.R
 import com.indraazimi.basasunda.navigation.Screen
 import com.indraazimi.basasunda.network.ApiStatus
+import com.indraazimi.basasunda.util.ViewModelFactory
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainScreen(navController: NavController) {
-    val viewModel: MainViewModel = viewModel()
+    val context = LocalContext.current
+    val viewModel: MainViewModel = viewModel(factory = ViewModelFactory(context))
     val baseUrl by viewModel.baseUrl
 
     var showDialog by remember { mutableStateOf(false) }
 
-    Scaffold (
+    Scaffold(
         topBar = {
             TopAppBar(
                 title = {
@@ -90,7 +93,7 @@ fun MainScreen(navController: NavController) {
             BaseUrlDialog(
                 onDismiss = { showDialog = false },
                 onConfirm = { newBaseUrl ->
-                    viewModel.updateBaseUrl(newBaseUrl)
+                    viewModel.updateBaseUrl(context, newBaseUrl)
                     showDialog = false
                 },
                 currentBaseUrl = baseUrl,
@@ -106,7 +109,7 @@ fun MainContent(modifier: Modifier, navController: NavController) {
     val errorMessage by viewModel.errorMessage
     val status by viewModel.status.collectAsState()
 
-    when(status) {
+    when (status) {
         ApiStatus.LOADING -> {
             Box(
                 modifier = modifier
@@ -117,22 +120,31 @@ fun MainContent(modifier: Modifier, navController: NavController) {
                 CircularProgressIndicator()
             }
         }
+
         ApiStatus.SUCCESS -> {
-            LazyColumn (
+            LazyColumn(
                 modifier = modifier
                     .background(MaterialTheme.colorScheme.background)
             ) {
                 items(data) { item ->
                     CategoryItem(
                         title = item.label,
-                        onClick = { navController.navigate(Screen.Detail.masukCatId(item.id, item.label)) }
+                        onClick = {
+                            navController.navigate(
+                                Screen.Detail.masukCatId(
+                                    item.id,
+                                    item.label
+                                )
+                            )
+                        }
                     )
                     HorizontalDivider()
                 }
             }
         }
+
         ApiStatus.ERROR -> {
-            Column (
+            Column(
                 modifier = modifier
                     .fillMaxSize()
                     .background(MaterialTheme.colorScheme.background),
@@ -146,7 +158,7 @@ fun MainContent(modifier: Modifier, navController: NavController) {
                     modifier = Modifier.padding(16.dp)
                 )
                 Spacer(modifier = Modifier.height(8.dp))
-                Button(onClick = {viewModel.retrieveData()}) {
+                Button(onClick = { viewModel.retrieveData() }) {
                     Text(
                         text = stringResource(R.string.coba_lagi)
                     )

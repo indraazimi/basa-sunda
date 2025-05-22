@@ -9,6 +9,7 @@
 
 package com.indraazimi.basasunda.ui.screen
 
+import android.content.Context
 import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -19,17 +20,18 @@ import com.indraazimi.basasunda.network.WordApiService
 import com.indraazimi.basasunda.network.createRetrofit
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import retrofit2.Retrofit
 
-class DetailViewModel : ViewModel() {
-    private var retrofit = createRetrofit(BaseUrlRepository.baseUrl.value)
-    private var wordApiService = retrofit.create(WordApiService::class.java)
+class DetailViewModel(context: Context) : ViewModel() {
+    private lateinit var retrofit: Retrofit
+    private lateinit var wordApiService: WordApiService
 
     var wordData = mutableStateOf(listOf<Word>())
         private set
 
     init {
         viewModelScope.launch {
-            BaseUrlRepository.baseUrl.collectLatest { newUrl ->
+            BaseUrlRepository.getBaseUrl(context).collectLatest { newUrl ->
                 retrofit = createRetrofit(newUrl)
                 wordApiService = retrofit.create(WordApiService::class.java)
             }
