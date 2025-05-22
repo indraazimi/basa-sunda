@@ -11,7 +11,10 @@ package com.indraazimi.basasunda.ui.screen
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -19,6 +22,8 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material3.Button
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -30,7 +35,9 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -39,13 +46,14 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.indraazimi.basasunda.R
 import com.indraazimi.basasunda.model.Word
+import com.indraazimi.basasunda.network.ApiStatus
 import com.indraazimi.basasunda.util.ViewModelFactory
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DetailScreen(catId: Int, label: String, navController: NavController) {
     val context = LocalContext.current
-    val viewModel: DetailViewModel = viewModel(factory = ViewModelFactory(context))
+    val viewModel: DetailViewModel = viewModel(factory = ViewModelFactory(context, catId))
     val data by viewModel.wordData
 
     LaunchedEffect(catId) {
@@ -77,19 +85,60 @@ fun DetailScreen(catId: Int, label: String, navController: NavController) {
         DetailContent(
             modifier = Modifier.padding(innerPadding),
             words = data,
+            catId = catId
         )
     }
 }
 
 @Composable
-fun DetailContent(modifier: Modifier = Modifier, words: List<Word>) {
-    LazyColumn(
-        modifier = modifier
-            .background(MaterialTheme.colorScheme.background)
-    ) {
-        items(words) {
-            WordItem(it)
-            HorizontalDivider()
+fun DetailContent(modifier: Modifier = Modifier, words: List<Word>, catId: Int) {
+    val viewModel: DetailViewModel = viewModel()
+    val status by viewModel.status.collectAsState()
+    val errorMessage by viewModel.errorMessage
+
+    when(status) {
+        ApiStatus.LOADING -> {
+            Box(
+                modifier = modifier
+                    .fillMaxSize()
+                    .background(MaterialTheme.colorScheme.background),
+                contentAlignment = Alignment.Center
+            ) {
+                CircularProgressIndicator()
+            }
+        }
+        ApiStatus.ERROR -> {
+            Column(
+                modifier = modifier
+                    .fillMaxSize()
+                    .background(MaterialTheme.colorScheme.background),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Text(
+                    text = errorMessage,
+                    style = MaterialTheme.typography.bodyLarge,
+                    color = MaterialTheme.colorScheme.onBackground,
+                    modifier = Modifier.padding(16.dp)
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+                Button(onClick = { viewModel.retrieveData(catId) }) {
+                    Text(
+                        text = stringResource(R.string.coba_lagi)
+                    )
+                }
+            }
+        }
+        ApiStatus.SUCCESS -> {
+            LazyColumn(
+                modifier = modifier
+                    .background(MaterialTheme.colorScheme.background)
+            ) {
+                items(words) {
+                    WordItem(it)
+                    HorizontalDivider()
+                }
+            }
         }
     }
 }

@@ -15,13 +15,16 @@ import androidx.lifecycle.ViewModelProvider
 import com.indraazimi.basasunda.ui.screen.DetailViewModel
 import com.indraazimi.basasunda.ui.screen.MainViewModel
 
-class ViewModelFactory(private val context: Context) : ViewModelProvider.Factory {
+class ViewModelFactory(
+    private val context: Context,
+    private val categoryId: Int? = null
+) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(MainViewModel::class.java)) {
             return MainViewModel(context) as T
         }
         if (modelClass.isAssignableFrom(DetailViewModel::class.java)) {
-            return DetailViewModel(context) as T
+            return DetailViewModel(context, categoryId?: 0) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }
