@@ -14,18 +14,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.indraazimi.basasunda.model.Category
 import com.indraazimi.basasunda.network.ApiStatus
+import com.indraazimi.basasunda.network.BasaSundaApi
 import com.indraazimi.basasunda.network.BaseUrlRepository
-import com.indraazimi.basasunda.network.CategoryApiService
-import com.indraazimi.basasunda.network.createRetrofit
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import retrofit2.Retrofit
 
 class MainViewModel(private val urlRepository: BaseUrlRepository) : ViewModel() {
-    private lateinit var retrofit: Retrofit
-    private lateinit var categoryApiService: CategoryApiService
 
     var categoryData = mutableStateOf(listOf<Category>())
         private set
@@ -43,8 +39,7 @@ class MainViewModel(private val urlRepository: BaseUrlRepository) : ViewModel() 
         viewModelScope.launch {
             urlRepository.baseUrl.collectLatest { newUrl ->
                 baseUrl.value = newUrl
-                retrofit = createRetrofit(newUrl)
-                categoryApiService = retrofit.create(CategoryApiService::class.java)
+                BasaSundaApi.init(newUrl)
                 retrieveData()
             }
         }
@@ -60,7 +55,7 @@ class MainViewModel(private val urlRepository: BaseUrlRepository) : ViewModel() 
         viewModelScope.launch(Dispatchers.IO) {
             status.value = ApiStatus.LOADING
             try {
-                categoryData.value = categoryApiService.getCategory()
+                categoryData.value = BasaSundaApi.service.getCategory()
                 status.value = ApiStatus.SUCCESS
             } catch (e: Exception) {
                 status.value = ApiStatus.ERROR

@@ -14,18 +14,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.indraazimi.basasunda.model.Word
 import com.indraazimi.basasunda.network.ApiStatus
-import com.indraazimi.basasunda.network.BaseUrlRepository
-import com.indraazimi.basasunda.network.WordApiService
-import com.indraazimi.basasunda.network.createRetrofit
+import com.indraazimi.basasunda.network.BasaSundaApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import retrofit2.Retrofit
 
-class DetailViewModel(private val urlRepository: BaseUrlRepository) : ViewModel() {
-    private lateinit var retrofit: Retrofit
-    private lateinit var wordApiService: WordApiService
+class DetailViewModel : ViewModel() {
 
     var wordData = mutableStateOf(listOf<Word>())
         private set
@@ -36,20 +30,11 @@ class DetailViewModel(private val urlRepository: BaseUrlRepository) : ViewModel(
     var errorMessage = mutableStateOf("")
         private set
 
-    init {
-        viewModelScope.launch(Dispatchers.IO) {
-            urlRepository.baseUrl.collectLatest { newUrl ->
-                retrofit = createRetrofit(newUrl)
-                wordApiService = retrofit.create(WordApiService::class.java)
-            }
-        }
-    }
-
     fun retrieveData(categoryId: Int) {
         viewModelScope.launch(Dispatchers.IO) {
             status.value = ApiStatus.LOADING
             try {
-                wordData.value = wordApiService.getWordByCategoryId(categoryId)
+                wordData.value = BasaSundaApi.service.getWordByCategoryId(categoryId)
                 status.value = ApiStatus.SUCCESS
             } catch (e: Exception) {
                 status.value = ApiStatus.ERROR
