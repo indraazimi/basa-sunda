@@ -29,9 +29,9 @@ import com.indraazimi.basasunda.R
 
 @Composable
 fun BaseUrlDialog(
+    currentBaseUrl: String,
     onDismiss: () -> Unit,
-    onConfirm: (String) -> Unit,
-    currentBaseUrl: String
+    onConfirm: (String) -> Unit
 ) {
     var textFieldValue by remember { mutableStateOf(currentBaseUrl) }
 

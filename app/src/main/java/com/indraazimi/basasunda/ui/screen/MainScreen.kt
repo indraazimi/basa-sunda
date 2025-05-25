@@ -57,7 +57,8 @@ import com.indraazimi.basasunda.util.ViewModelFactory
 @Composable
 fun MainScreen(navController: NavController) {
     val context = LocalContext.current
-    val viewModel: MainViewModel = viewModel(factory = ViewModelFactory(context))
+    val factory = ViewModelFactory(context)
+    val viewModel: MainViewModel = viewModel(factory = factory)
     val baseUrl by viewModel.baseUrl
 
     var showDialog by remember { mutableStateOf(false) }
@@ -91,12 +92,12 @@ fun MainScreen(navController: NavController) {
 
         if (showDialog) {
             BaseUrlDialog(
+                currentBaseUrl = baseUrl,
                 onDismiss = { showDialog = false },
                 onConfirm = { newBaseUrl ->
-                    viewModel.updateBaseUrl(context, newBaseUrl)
+                    viewModel.updateBaseUrl(newBaseUrl)
                     showDialog = false
-                },
-                currentBaseUrl = baseUrl,
+                }
             )
         }
     }

@@ -53,7 +53,8 @@ import com.indraazimi.basasunda.util.ViewModelFactory
 @Composable
 fun DetailScreen(catId: Int, label: String, navController: NavController) {
     val context = LocalContext.current
-    val viewModel: DetailViewModel = viewModel(factory = ViewModelFactory(context, catId))
+    val factory = ViewModelFactory(context)
+    val viewModel: DetailViewModel = viewModel(factory = factory)
     val data by viewModel.wordData
 
     LaunchedEffect(catId) {
@@ -107,6 +108,19 @@ fun DetailContent(modifier: Modifier = Modifier, words: List<Word>, catId: Int) 
                 CircularProgressIndicator()
             }
         }
+
+        ApiStatus.SUCCESS -> {
+            LazyColumn(
+                modifier = modifier
+                    .background(MaterialTheme.colorScheme.background)
+            ) {
+                items(words) {
+                    WordItem(it)
+                    HorizontalDivider()
+                }
+            }
+        }
+
         ApiStatus.ERROR -> {
             Column(
                 modifier = modifier
@@ -126,17 +140,6 @@ fun DetailContent(modifier: Modifier = Modifier, words: List<Word>, catId: Int) 
                     Text(
                         text = stringResource(R.string.coba_lagi)
                     )
-                }
-            }
-        }
-        ApiStatus.SUCCESS -> {
-            LazyColumn(
-                modifier = modifier
-                    .background(MaterialTheme.colorScheme.background)
-            ) {
-                items(words) {
-                    WordItem(it)
-                    HorizontalDivider()
                 }
             }
         }
