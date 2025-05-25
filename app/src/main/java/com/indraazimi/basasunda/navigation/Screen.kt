@@ -9,9 +9,11 @@
 
 package com.indraazimi.basasunda.navigation
 
+import com.indraazimi.basasunda.model.Category
+
 sealed class Screen (val route: String) {
     data object Main: Screen("mainScreen")
     data object Detail : Screen("detailScreen/{catId}/{label}") {
-        fun masukCatId(catId: Int, label: String) = "detailScreen/$catId/$label"
+        fun withData(cat: Category) = "detailScreen/${cat.id}/${cat.label}"
     }
 }
