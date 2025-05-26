@@ -22,7 +22,7 @@ class BaseUrlRepository(private val context: Context) {
 
     companion object {
         private val BASE_URL_KEY = stringPreferencesKey("base_url")
-        private const val DEFAULT_URL = "https://d3ifcool.org/basasunda/v1/"
+        private const val DEFAULT_URL = "https://d3ifcool.org/basasunda/v2/"
     }
 
     val baseUrl: Flow<String> = context.dataStore.data.map { preferences ->
