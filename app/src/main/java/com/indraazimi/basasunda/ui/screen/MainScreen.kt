@@ -43,10 +43,12 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.indraazimi.basasunda.R
+import com.indraazimi.basasunda.model.Category
 import com.indraazimi.basasunda.navigation.Screen
 import com.indraazimi.basasunda.network.ApiStatus
 import com.indraazimi.basasunda.ui.component.ErrorMessage
 import com.indraazimi.basasunda.ui.component.LoadingIndicator
+import com.indraazimi.basasunda.ui.component.toComposeColor
 import com.indraazimi.basasunda.util.ViewModelFactory
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -118,7 +120,7 @@ fun MainContent(modifier: Modifier, navController: NavController) {
             ) {
                 items(data) { item ->
                     CategoryItem(
-                        title = item.label,
+                        category = item,
                         onClick = { navController.navigate(Screen.Detail.withData(item)) }
                     )
                     HorizontalDivider()
@@ -136,20 +138,20 @@ fun MainContent(modifier: Modifier, navController: NavController) {
 
 @Composable
 fun CategoryItem(
-    title: String,
+    category: Category,
     onClick: () -> Unit = {}
 ) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .clickable { onClick() }
-            .background(MaterialTheme.colorScheme.surface)
+            .background(category.color.toComposeColor())
             .height(88.dp)
             .padding(start = 16.dp),
         verticalArrangement = Arrangement.Center,
     ) {
         Text(
-            text = title,
+            text = category.label,
             style = MaterialTheme.typography.bodyLarge.copy(
                 fontWeight = FontWeight.Bold
             ),

@@ -24,6 +24,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.indraazimi.basasunda.R
@@ -67,3 +68,6 @@ fun ErrorMessage(
         }
     }
 }
+
+@Composable
+fun String.toComposeColor(): Color = Color(("FF$this").toLong(16))
