@@ -16,4 +16,5 @@
     <string name="ubah">Ubah Base URL</string>
     <string name="pengaturan">Pengaturan</string>
     <string name="kembali">Kembali</string>
+    <string name="gambar">Gambar %1$s</string>
 </resources>

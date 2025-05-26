@@ -44,6 +44,10 @@ object BasaSundaApi {
 
         service = retrofit.create(BSApiService::class.java)
     }
+
+    fun getImageUrl(imageId: String, size: String) : String {
+        return baseUrl + "getImage.php?name=$imageId&size=$size"
+    }
 }
 
 enum class ApiStatus { LOADING, ERROR, SUCCESS }
