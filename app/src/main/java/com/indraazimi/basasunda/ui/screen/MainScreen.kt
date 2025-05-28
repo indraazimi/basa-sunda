@@ -40,6 +40,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.indraazimi.basasunda.R
@@ -49,7 +50,6 @@ import com.indraazimi.basasunda.network.ApiStatus
 import com.indraazimi.basasunda.ui.component.ErrorMessage
 import com.indraazimi.basasunda.ui.component.LoadingIndicator
 import com.indraazimi.basasunda.ui.component.toComposeColor
-import com.indraazimi.basasunda.ui.theme.Brown900
 import com.indraazimi.basasunda.ui.theme.Tan
 import com.indraazimi.basasunda.util.ViewModelFactory
 
@@ -67,14 +67,11 @@ fun MainScreen(navController: NavController) {
         topBar = {
             TopAppBar(
                 title = {
-                    Text(
-                        text = stringResource(R.string.app_name),
-                        style = MaterialTheme.typography.headlineSmall.copy(fontWeight = FontWeight.Bold),
-                        color = MaterialTheme.colorScheme.onPrimary
-                    )
+                    Text(text = stringResource(R.string.app_name))
                 },
                 colors = TopAppBarDefaults.mediumTopAppBarColors(
-                    containerColor = Brown900
+                    containerColor = MaterialTheme.colorScheme.primaryContainer,
+                    titleContentColor = MaterialTheme.colorScheme.onPrimary
                 ),
                 actions = {
                     IconButton(onClick = { showDialog = true }) {
@@ -157,9 +154,8 @@ fun CategoryItem(
     ) {
         Text(
             text = category.label,
-            style = MaterialTheme.typography.bodyLarge.copy(
-                fontWeight = FontWeight.Bold
-            ),
+            fontSize = 18.sp,
+            fontWeight = FontWeight.Bold,
             color = MaterialTheme.colorScheme.onPrimary,
         )
     }

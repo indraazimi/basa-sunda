@@ -15,7 +15,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -24,11 +23,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.indraazimi.basasunda.R
-import com.indraazimi.basasunda.ui.theme.Brown900
 
 @Composable
 fun BaseUrlDialog(
@@ -39,7 +36,6 @@ fun BaseUrlDialog(
     var textFieldValue by remember { mutableStateOf(currentBaseUrl) }
 
     AlertDialog(
-        containerColor = Color.White,
         onDismissRequest = onDismiss,
         title = { Text(text = stringResource(R.string.ubah)) },
         text = {
@@ -56,9 +52,6 @@ fun BaseUrlDialog(
         },
         confirmButton = {
             Button(
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = Brown900
-                ),
                 onClick = { onConfirm(textFieldValue) },
                 enabled = textFieldValue.isNotBlank()
             ) {
@@ -66,12 +59,7 @@ fun BaseUrlDialog(
             }
         },
         dismissButton = {
-            Button(
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = Brown900
-                ),
-                onClick = onDismiss
-            ) {
+            Button(onClick = onDismiss) {
                 Text(text = stringResource(R.string.batal))
             }
         }
