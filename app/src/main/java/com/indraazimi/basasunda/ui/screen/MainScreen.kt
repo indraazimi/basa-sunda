@@ -13,6 +13,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -21,7 +22,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -49,6 +49,8 @@ import com.indraazimi.basasunda.network.ApiStatus
 import com.indraazimi.basasunda.ui.component.ErrorMessage
 import com.indraazimi.basasunda.ui.component.LoadingIndicator
 import com.indraazimi.basasunda.ui.component.toComposeColor
+import com.indraazimi.basasunda.ui.theme.Brown900
+import com.indraazimi.basasunda.ui.theme.Tan
 import com.indraazimi.basasunda.util.ViewModelFactory
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -65,18 +67,21 @@ fun MainScreen(navController: NavController) {
         topBar = {
             TopAppBar(
                 title = {
-                    Text(text = stringResource(R.string.app_name))
+                    Text(
+                        text = stringResource(R.string.app_name),
+                        style = MaterialTheme.typography.headlineSmall.copy(fontWeight = FontWeight.Bold),
+                        color = MaterialTheme.colorScheme.onPrimary
+                    )
                 },
                 colors = TopAppBarDefaults.mediumTopAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.primaryContainer,
-                    titleContentColor = MaterialTheme.colorScheme.primary,
+                    containerColor = Brown900
                 ),
                 actions = {
                     IconButton(onClick = { showDialog = true }) {
                         Icon(
                             imageVector = Icons.Default.Settings,
                             contentDescription = stringResource(R.string.ubah),
-                            tint = MaterialTheme.colorScheme.primary
+                            tint = MaterialTheme.colorScheme.onPrimary
                         )
                     }
                 }
@@ -116,14 +121,14 @@ fun MainContent(modifier: Modifier, navController: NavController) {
         ApiStatus.SUCCESS -> {
             LazyColumn(
                 modifier = modifier
-                    .background(MaterialTheme.colorScheme.background)
+                    .fillMaxSize()
+                    .background(Tan)
             ) {
                 items(data) { item ->
                     CategoryItem(
                         category = item,
                         onClick = { navController.navigate(Screen.Detail.withData(item)) }
                     )
-                    HorizontalDivider()
                 }
             }
         }
@@ -155,7 +160,7 @@ fun CategoryItem(
             style = MaterialTheme.typography.bodyLarge.copy(
                 fontWeight = FontWeight.Bold
             ),
-            color = MaterialTheme.colorScheme.onSurface,
+            color = MaterialTheme.colorScheme.onPrimary,
         )
     }
 }

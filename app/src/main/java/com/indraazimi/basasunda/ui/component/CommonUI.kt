@@ -18,6 +18,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -29,13 +30,15 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.indraazimi.basasunda.R
+import com.indraazimi.basasunda.ui.theme.Brown900
+import com.indraazimi.basasunda.ui.theme.Tan
 
 @Composable
 fun LoadingIndicator(modifier: Modifier = Modifier) {
     Box(
         modifier = modifier
             .fillMaxSize()
-            .background(MaterialTheme.colorScheme.background),
+            .background(Tan),
         contentAlignment = Alignment.Center
     ) {
         CircularProgressIndicator()
@@ -51,7 +54,7 @@ fun ErrorMessage(
     Column(
         modifier = modifier
             .fillMaxSize()
-            .background(MaterialTheme.colorScheme.background),
+            .background(Tan),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -62,7 +65,12 @@ fun ErrorMessage(
             modifier = Modifier.padding(16.dp)
         )
         Spacer(modifier = Modifier.height(8.dp))
-        Button(onClick = onClick) {
+        Button(
+            colors = ButtonDefaults.buttonColors(
+                containerColor = Brown900
+            ),
+            onClick = onClick
+        ) {
             Text(
                 text = stringResource(R.string.coba_lagi)
             )

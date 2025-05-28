@@ -11,9 +11,12 @@ package com.indraazimi.basasunda.ui.screen
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -37,9 +40,11 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
@@ -53,6 +58,8 @@ import com.indraazimi.basasunda.ui.component.ErrorMessage
 import com.indraazimi.basasunda.ui.component.LoadingIndicator
 import com.indraazimi.basasunda.ui.component.getDensityQualifier
 import com.indraazimi.basasunda.ui.component.toComposeColor
+import com.indraazimi.basasunda.ui.theme.Brown900
+import com.indraazimi.basasunda.ui.theme.Tan
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -72,16 +79,19 @@ fun DetailScreen(catId: Int, label: String, color: String, navController: NavCon
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                             contentDescription = stringResource(R.string.kembali),
-                            tint = MaterialTheme.colorScheme.primary
+                            tint = MaterialTheme.colorScheme.onPrimary
                         )
                     }
                 },
                 title = {
-                    Text(text = label)
+                    Text(
+                        text = label,
+                        style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
+                        color = MaterialTheme.colorScheme.onPrimary
+                    )
                 },
                 colors = TopAppBarDefaults.mediumTopAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.primaryContainer,
-                    titleContentColor = MaterialTheme.colorScheme.primary,
+                    containerColor = Brown900
                 )
             )
         }
@@ -109,11 +119,15 @@ fun DetailContent(modifier: Modifier = Modifier, words: List<Word>, catId: Int, 
         ApiStatus.SUCCESS -> {
             LazyColumn(
                 modifier = modifier
-                    .background(MaterialTheme.colorScheme.background)
+                    .fillMaxSize()
+                    .background(Tan)
             ) {
                 items(words) {
                     WordItem(it, colorItem)
-                    HorizontalDivider()
+                    HorizontalDivider(
+                        color = Color.LightGray,
+                        thickness = 1.dp,
+                    )
                 }
             }
         }
@@ -130,39 +144,45 @@ fun DetailContent(modifier: Modifier = Modifier, words: List<Word>, catId: Int, 
 fun WordItem(word: Word, warnaBackground: String) {
     Row(
         modifier = Modifier
-            .fillMaxWidth()
-            .background(warnaBackground.toComposeColor())
             .height(88.dp)
-            .padding(start = 16.dp),
+            .fillMaxWidth()
+            .background(warnaBackground.toComposeColor()),
         verticalAlignment = Alignment.CenterVertically
     ) {
+
         if (word.image.isNotEmpty()) {
-            AsyncImage(
-                model = ImageRequest.Builder(LocalContext.current)
-                    .data(BasaSundaApi.getImageUrl(word.image, getDensityQualifier()))
-                    .crossfade(true)
-                    .build(),
-                contentDescription = stringResource(R.string.gambar, word.label),
-                placeholder = painterResource(R.drawable.loading_img),
-                error = painterResource(R.drawable.broken_img),
-            )
-            Spacer(modifier = Modifier.width(16.dp))
+            Box(
+                modifier = Modifier
+                    .fillMaxHeight()
+                    .background(Tan)
+            ) {
+                AsyncImage(
+                    model = ImageRequest.Builder(LocalContext.current)
+                        .data(BasaSundaApi.getImageUrl(word.image, getDensityQualifier()))
+                        .crossfade(true)
+                        .build(),
+                    contentDescription = stringResource(R.string.gambar, word.label),
+                    placeholder = painterResource(R.drawable.loading_img),
+                    error = painterResource(R.drawable.broken_img),
+                )
+            }
         }
 
+        Spacer(modifier = Modifier.width(16.dp))
         Column(
             modifier = Modifier
                 .fillMaxWidth(),
             verticalArrangement = Arrangement.Center,
         ) {
             Text(
-                text = word.label,
-                style = MaterialTheme.typography.bodyLarge,
-                color = MaterialTheme.colorScheme.onSurface,
+                text = word.sunda,
+                style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold),
+                color = MaterialTheme.colorScheme.onPrimary,
             )
             Text(
-                text = word.sunda,
+                text = word.label,
                 style = MaterialTheme.typography.bodyLarge,
-                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f),
+                color = MaterialTheme.colorScheme.onPrimary,
             )
         }
     }
