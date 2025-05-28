@@ -16,6 +16,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.indraazimi.basasunda.model.Category
 import com.indraazimi.basasunda.ui.screen.DetailScreen
 import com.indraazimi.basasunda.ui.screen.MainScreen
 
@@ -41,7 +42,8 @@ fun SetupNavGraph(navController: NavHostController = rememberNavController()) {
             val label = backStackEntry.arguments?.getString("label")
             val color = backStackEntry.arguments?.getString("color")
             if (catId != null && label != null && color != null) {
-                DetailScreen(catId, label, color, navController)
+                val category = Category(catId, label, color)
+                DetailScreen(category, navController)
             }
         }
     }

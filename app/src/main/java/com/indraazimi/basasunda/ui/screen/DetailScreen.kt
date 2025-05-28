@@ -50,6 +50,7 @@ import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.indraazimi.basasunda.R
+import com.indraazimi.basasunda.model.Category
 import com.indraazimi.basasunda.model.Word
 import com.indraazimi.basasunda.network.ApiStatus
 import com.indraazimi.basasunda.network.BasaSundaApi
@@ -61,12 +62,12 @@ import com.indraazimi.basasunda.ui.theme.Tan
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DetailScreen(catId: Int, label: String, color: String, navController: NavController) {
+fun DetailScreen(category: Category, navController: NavController) {
     val viewModel: DetailViewModel = viewModel()
     val data by viewModel.wordData
 
-    LaunchedEffect(catId) {
-        viewModel.retrieveData(catId)
+    LaunchedEffect(category.id) {
+        viewModel.retrieveData(category.id)
     }
 
     Scaffold(
@@ -82,7 +83,7 @@ fun DetailScreen(catId: Int, label: String, color: String, navController: NavCon
                     }
                 },
                 title = {
-                    Text(text = label)
+                    Text(text = category.label)
                 },
                 colors = TopAppBarDefaults.mediumTopAppBarColors(
                     containerColor = MaterialTheme.colorScheme.primaryContainer,
@@ -94,8 +95,8 @@ fun DetailScreen(catId: Int, label: String, color: String, navController: NavCon
         DetailContent(
             modifier = Modifier.padding(innerPadding),
             words = data,
-            catId = catId,
-            colorItem = color
+            catId = category.id,
+            colorItem = category.color
         )
     }
 }
