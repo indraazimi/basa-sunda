@@ -56,7 +56,7 @@ import com.indraazimi.basasunda.ui.component.toComposeColor
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DetailScreen(catId: Int, label: String, navController: NavController) {
+fun DetailScreen(catId: Int, label: String, color: String, navController: NavController) {
     val viewModel: DetailViewModel = viewModel()
     val data by viewModel.wordData
 
@@ -89,17 +89,17 @@ fun DetailScreen(catId: Int, label: String, navController: NavController) {
         DetailContent(
             modifier = Modifier.padding(innerPadding),
             words = data,
-            catId = catId
+            catId = catId,
+            colorItem = color
         )
     }
 }
 
 @Composable
-fun DetailContent(modifier: Modifier = Modifier, words: List<Word>, catId: Int) {
+fun DetailContent(modifier: Modifier = Modifier, words: List<Word>, catId: Int, colorItem: String) {
     val viewModel: DetailViewModel = viewModel()
     val status by viewModel.status.collectAsState()
     val errorMessage by viewModel.errorMessage
-    val warnaBackground by viewModel.colorItem
 
     when (status) {
         ApiStatus.LOADING -> {
@@ -112,7 +112,7 @@ fun DetailContent(modifier: Modifier = Modifier, words: List<Word>, catId: Int) 
                     .background(MaterialTheme.colorScheme.background)
             ) {
                 items(words) {
-                    WordItem(it, warnaBackground)
+                    WordItem(it, colorItem)
                     HorizontalDivider()
                 }
             }

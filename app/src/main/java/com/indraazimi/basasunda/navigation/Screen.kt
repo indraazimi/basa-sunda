@@ -13,7 +13,7 @@ import com.indraazimi.basasunda.model.Category
 
 sealed class Screen (val route: String) {
     data object Main: Screen("mainScreen")
-    data object Detail : Screen("detailScreen/{catId}/{label}") {
-        fun withData(cat: Category) = "detailScreen/${cat.id}/${cat.label}"
+    data object Detail : Screen("detailScreen/{catId}/{label}/{color}") {
+        fun withData(cat: Category) = "detailScreen/${cat.id}/${cat.label}/${cat.color}"
     }
 }

@@ -30,13 +30,9 @@ class DetailViewModel : ViewModel() {
     var errorMessage = mutableStateOf("")
         private set
 
-    var colorItem = mutableStateOf("")
-        private set
-
     fun retrieveData(categoryId: Int) {
         viewModelScope.launch(Dispatchers.IO) {
             status.value = ApiStatus.LOADING
-            colorItem.value = BasaSundaApi.service.getCategory()[categoryId-1].color
             try {
                 wordData.value = BasaSundaApi.service.getWordByCategoryId(categoryId)
                 status.value = ApiStatus.SUCCESS

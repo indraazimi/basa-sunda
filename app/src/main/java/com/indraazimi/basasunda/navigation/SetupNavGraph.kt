@@ -33,13 +33,15 @@ fun SetupNavGraph(navController: NavHostController = rememberNavController()) {
             route = Screen.Detail.route,
             arguments = listOf(
                 navArgument("catId") { type = NavType.IntType },
-                navArgument("label") { type = NavType.StringType }
+                navArgument("label") { type = NavType.StringType },
+                navArgument("color") { type = NavType.StringType }
             )
         ) { backStackEntry ->
             val catId = backStackEntry.arguments?.getInt("catId")
             val label = backStackEntry.arguments?.getString("label")
-            if (catId != null && label != null) {
-                DetailScreen(catId, label, navController)
+            val color = backStackEntry.arguments?.getString("color")
+            if (catId != null && label != null && color != null) {
+                DetailScreen(catId, label, color, navController)
             }
         }
     }
