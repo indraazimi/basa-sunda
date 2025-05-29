@@ -157,6 +157,7 @@ fun WordItem(word: Word, warnaBackground: String) {
                     contentDescription = stringResource(R.string.gambar, word.label),
                     placeholder = painterResource(R.drawable.loading_img),
                     error = painterResource(R.drawable.broken_img),
+                    modifier = Modifier.size(88.dp)
                 )
             }
         }
